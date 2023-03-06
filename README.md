@@ -311,4 +311,5 @@ As the `entry_mut` semaphore queues up both readers and writers in a single queu
 ## REFERENCES - 
 
 (i) Abraham Silberschatz, Peter B. Galvin, Greg Gagne - Operating System Concepts-Wiley (2012)
+
 (ii) CS-342 Operating Systems - Asst. Prof. Dr. İbrahim Körpeoğlu (2008-2009- Spring) {VIDEO LECTURES - Bilkent University}
