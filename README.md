@@ -260,3 +260,9 @@ The readers and writers cannot enter deadlock for the proposed solution. It is g
 
 ## (iii) BOUNDED WAITING TIME 
 As the `entry_mut` semaphore queues up both readers and writers in a single queue, providing mutual access, bounded waiting time is satisfied. Let's say there is a steady stream of reader processes flowing in. Then, at the point of time when a single writer process requests access to the data, it will be guaranteed to have its requested access in a finite amount if time.
+
+
+## REFERENCES - 
+
+(i) Abraham Silberschatz, Peter B. Galvin, Greg Gagne - Operating System Concepts-Wiley (2012)
+(ii) CS-342 Operating Systems - Asst. Prof. Dr. İbrahim Körpeoğlu (2008-2009- Spring) {VIDEO LECTURES - Bilkent University}
