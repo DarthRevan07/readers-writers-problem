@@ -33,12 +33,56 @@ When a process releases a resource, it performs a `signal()` operation.
 shared data : 
 struct semaphore{
 int value;     //Default value provided as 1 (binary semaphore)
-struct process *list; //A waiting queue associated with each semaphore object.
+struct queue *list; //A waiting queue associated with each semaphore object.
 };
+
+Structures used : 
+
+struct process{
+int p_ID;  //Denotes the process ID. It uniquely identifies a process.
+bool state = TRUE;  //1 represents that process is active, 0 represents process is blocked. (in bool)
+process *next;   // Store the pointer to the PCB of the next process.
+}
+
+struct queue{
+int size = 0;
+int max_size = ; //Define a maximum size for the queue to be associated with a single semaphore.
+//We also maintain pointers to the front and back of the queue.
+queue *front;
+queue *end;
+
+public:
+
+ void enqueue(int pID) {
+ //Append the process with pID to the rear of the queue.
+ //Set the end pointer to point to the process with ID as pID.
+ }
+ 
+ process* pop() {
+ process *next = front;
+ front = front->next;
+ return next;
+ }
+
+}
+
+Some Functions : 
+
+void wakeup(process* nextP) {
+ nextP->state = TRUE;
+}
+
+void block(process* P) {
+ P->state = FALSE;
+}
+
+
 
 ```
 
 Then the `wait()` operation is implemented as - 
+
+## The `wait()` Operation : 
 
 ```C
 wait(semaphore *S) {
@@ -46,7 +90,7 @@ wait(semaphore *S) {
  if (S->value < 0) {
    S->list.enqueue(process);
    //i.e., add to the list of processes waiting on a semaphore.
-   process.block();
+   block(process);
    //The caller process is sent to a blocked state using this call.
  }
 }
@@ -57,6 +101,8 @@ wait(semaphore *S) {
 > When a process executes the `wait()` method and finds that the semaphore value is not positive, it must wait. Rather than busy waiting, we block that process of the CPU itself.
 
 The `signal()` operation is implemented as - 
+
+## The `signal()` Operation :
 
 ```C 
 signal(semaphore *S) {
