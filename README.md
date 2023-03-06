@@ -95,6 +95,8 @@ semaphore *wrt = New semaphore(1);
 ```
 The structure of the writer process is then - 
 
+### Classical Writer Process
+
 ```C 
 do {
    /*
@@ -119,6 +121,7 @@ do {
 
 The structure of the reader process is then - 
 
+### Classical Reader Process
 ```C 
 do {
      /* 
@@ -178,6 +181,8 @@ semaphore *entry_mut = New semaphore(1);
 
 _THEN, THE `writer` process can now be implemented as_ - 
 
+### Starve-Free Writer Process
+
 ```C
 do{
    /*
@@ -210,6 +215,8 @@ do{
 
 The code for the `reader` process can be written as - 
 
+### Starve-Free Reader Process
+
 ```C 
 do {
      /* 
@@ -241,4 +248,15 @@ do {
 ```
 
 #### What was done here ? 
+
 > Intuitively, we tried to bridge the discrimination between the readers and writer processes by introducing a new mutex lock. We sort of protect the entry section for the readers code. The reader and writer processes will fall into the same waiting queue whenever required, and this will ensure that a definite waiting time results for both readers and writers if there's an overwhelming stream of the other processes.
+
+## (i) MUTUAL EXCLUSION
+As discussed before, `mutex` protects the readcount variable, while `wrt` provides exclusive access to a writer vs a set of readers. The initial system allowed for mutual exclusion in the critical regions of the respective processes, where they performed either reads, or read & writes on shared data.
+The newly proposed solution is also mutually exclusive, as `entry_mut` is responsible for putting a reader process in its rightful place, providing mutually exclusive access to the problem as a whole.
+
+## (ii) PROGRESS
+The readers and writers cannot enter deadlock for the proposed solution. It is guaranteed that the stream of reader (or writer) processes present in the waiting queue will be cleared even if a single writer(or reader) requests access.
+
+## (iii) BOUNDED WAITING TIME 
+As the `entry_mut` semaphore queues up both readers and writers in a single queue, providing mutual access, bounded waiting time is satisfied. Let's say there is a steady stream of reader processes flowing in. Then, at the point of time when a single writer process requests access to the data, it will be guaranteed to have its requested access in a finite amount if time.
